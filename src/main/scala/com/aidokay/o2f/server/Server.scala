@@ -1,7 +1,7 @@
 package com.aidokay.o2f.server
 
 import cats.effect.{ExitCode, IO, IOApp}
-import com.aidokay.o2f.server.Routes.helloRoutes
+import com.aidokay.o2f.server.Routes.{helloRoutes, toRoutes}
 import com.comcast.ip4s.{ipv4, port}
 import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.server.Router
@@ -10,6 +10,7 @@ object Server extends IOApp {
   override def run(args: List[String]): IO[ExitCode] =
     val apis = Router(
       "api" -> helloRoutes[IO],
+      "/todo" -> toRoutes[IO],
     ).orNotFound
     println("starting http server")
 

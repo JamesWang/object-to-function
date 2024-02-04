@@ -1,27 +1,33 @@
 package com.aidokay.o2f.server
 
 import cats.Monad
-import org.http4s.HttpRoutes
-import org.http4s.dsl.Http4sDsl
+import com.aidokay.o2f.server.Handlers.Razor
 import org.http4s.*
-import io.circe.*
+import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.`Content-Type`
-import org.http4s.syntax.*
 
 
 object Routes {
-  def helloRoutes[F[_]: Monad]: HttpRoutes[F] =
+  private val HTML = `Content-Type`(MediaType.text.html);
+
+  def toRoutes[F[_] : Monad]: HttpRoutes[F] =
     val dsl = Http4sDsl[F]
     import dsl.*
-    import org.http4s.circe._
+    HttpRoutes.of[F] {
+      case GET -> Root / user / list =>
+        Ok(Razor.showList(user, list), HTML)
+    }
+
+  def helloRoutes[F[_] : Monad]: HttpRoutes[F] =
+    val dsl = Http4sDsl[F]
+    import dsl.*
 
     HttpRoutes.of[F] {
       case GET -> Root / "hello" / name =>
         Ok(s"""{"hello", $name}""")
       case GET -> Root / "index.html" =>
-        Ok(helloPage, `Content-Type`(MediaType.text.html))
+        Ok(helloPage, HTML)
     }
-
 
   private def helloPage =
     """
