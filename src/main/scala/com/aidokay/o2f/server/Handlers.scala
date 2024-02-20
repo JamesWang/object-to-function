@@ -1,5 +1,6 @@
 package com.aidokay.o2f.server
 
+import com.aidokay.o2f.domain.models.{ListName, ToDoList, User}
 import org.http4s.*
 import org.http4s.headers.`Content-Type`
 
@@ -19,4 +20,10 @@ object Handlers {
          | </body>
          |</html>
          |""".stripMargin
+
+    def extractListData(user: String, list: String): (User, ListName) =
+      (User(user), ListName(list))
+
+    def fetchListContent(listId: (User, ListName)) : ToDoList =  ???
+
 }
