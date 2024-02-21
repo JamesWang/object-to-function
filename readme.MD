@@ -25,3 +25,29 @@
 ````
 ## Categories with terminal objects, binary products, and exponentiation are called Cartesian Closed Category(CCC)
 
+# Fusion
+- Fuses the maps by composing the functions:
+```
+    def calculateInterest: SavingAccount => BigDecimal = ???
+    def deductTax: BigDecimal => BigDecimal = ???
+    
+    trait Account {
+    }
+    case class SavingAccount()
+    case class Balance()
+    
+    val a1 = SavingAccount("a-001")
+    val a2 = SavingAccount("a-002")
+    val a3 = SavingAccount("a-003")
+    
+    val accounts = List(a1, a2, a3)
+    accounts.map(calculateInterst).map(deductTax)     ------maps twice
+    accounts.map(calculateInterest andThen deductTax) -----composing    
+    
+```
+- Fuses the two map combinators by using function composition, Composition has given you a performance optimization.
+- Patterns of **`list.map(f).map(g)`** can be replaced with **`list.map(g compose f)`** for RF functions
+
+# Modules - Functional for small, OO For Large
+-  needs to be loosely coupled but strongly cohesive - abstractions need to be small and tight, each of them focused on doing one specific thing
+- One module is usually a part of one bounded context, one bounded context can contain many modules.
